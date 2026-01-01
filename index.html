@@ -1,1 +1,160 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Futbolcu Ol</title>
+
+<style>
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  touch-action: none;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+body {
+  background: url("bg.png") center/cover no-repeat;
+}
+
+/* NPC seçimi (sağ üst) */
+.npc-select {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.npc {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 3px solid transparent;
+}
+
+.npc.selected {
+  border-color: #2ecc71;
+}
+
+.npc img {
+  width: 80%;
+  height: 80%;
+  pointer-events: none;
+}
+
+/* Orta alan */
+.center {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+/* Beyaz input */
+.input {
+  width: min(320px, 80vw);
+  padding: 14px;
+  font-size: 18px;
+  border-radius: 12px;
+  border: 2px solid rgba(0,0,0,0.2);
+  background: #fff;
+  outline: none;
+}
+
+/* Onayla */
+.btnImg {
+  width: min(180px, 55vw);
+  cursor: pointer;
+  user-select: none;
+}
+.btnImg:active { transform: scale(0.97); }
+
+.error {
+  font-size: 14px;
+  color: #c62828;
+  min-height: 18px;
+}
+</style>
+</head>
+
+<body>
+
+<script>
+/* 🔒 DAHA ÖNCE FUTBOLCU OLUŞTURULDU MU? */
+if (localStorage.getItem("futbolcu_olusturuldu") === "true") {
+  window.location.href = "oyun.html";
+}
+</script>
+
+<!-- NPC SEÇİM -->
+<div class="npc-select">
+  <div class="npc" data-npc="npc1">
+    <img src="npc1.png">
+  </div>
+  <div class="npc" data-npc="npc2">
+    <img src="npc2.png">
+  </div>
+</div>
+
+<!-- ORTA -->
+<div class="center">
+  <input id="playerName" class="input" maxlength="15" placeholder="Futbolcu Adı">
+  <img id="confirmBtn" class="btnImg" src="onayla.png">
+  <div id="err" class="error"></div>
+</div>
+
+<script>
+const npcs = document.querySelectorAll(".npc");
+const input = document.getElementById("playerName");
+const btn = document.getElementById("confirmBtn");
+const err = document.getElementById("err");
+
+let selectedNpc = null;
+
+/* NPC seç */
+npcs.forEach(npc => {
+  npc.onclick = () => {
+    npcs.forEach(n => n.classList.remove("selected"));
+    npc.classList.add("selected");
+    selectedNpc = npc.dataset.npc;
+  };
+});
+
+/* ONAYLA – SADECE 1 KEZ */
+btn.onclick = () => {
+  err.textContent = "";
+  const name = input.value.trim();
+
+  if (!name) {
+    err.textContent = "Futbolcu adı boş olamaz";
+    return;
+  }
+  if (!selectedNpc) {
+    err.textContent = "Bir futbolcu seçmelisin";
+    return;
+  }
+
+  // 🔐 KAYDET VE KİLİTLE
+  localStorage.setItem("futbolcu_adi", name);
+  localStorage.setItem("futbolcu_npc", selectedNpc);
+  localStorage.setItem("futbolcu_olusturuldu", "true");
+
+  window.location.href = "oyun.html";
+};
+</script>
+
+</body>
+</html>
 
