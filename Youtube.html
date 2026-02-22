@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subscriber Booster</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI;
+}
+
+body{
+background:#f1f5f9;
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.container{
+width:380px;
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 0 30px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+h1{
+color:#0f172a;
+margin-bottom:15px;
+}
+
+input{
+width:100%;
+padding:10px;
+border:1px solid #ddd;
+border-radius:8px;
+margin-top:10px;
+}
+
+button{
+margin-top:15px;
+width:100%;
+padding:10px;
+background:#ff0000;
+border:none;
+border-radius:8px;
+color:white;
+cursor:pointer;
+font-weight:bold;
+}
+
+.card{
+margin-top:20px;
+padding:15px;
+background:#f8fafc;
+border-radius:10px;
+display:none;
+}
+
+img{
+width:80px;
+border-radius:50%;
+margin-bottom:10px;
+}
+
+.progress{
+width:100%;
+height:8px;
+background:#e2e8f0;
+border-radius:10px;
+margin-top:15px;
+overflow:hidden;
+display:none;
+}
+
+.bar{
+height:100%;
+width:0%;
+background:#22c55e;
+transition:0.5s;
+}
+
+.status{
+margin-top:15px;
+color:#475569;
+}
+
+.success{
+color:green;
+margin-top:15px;
+display:none;
+font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Abone Paneli</h1>
+
+<input id="channel" placeholder="Kanal Adı veya URL Gir">
+
+<button onclick="search()">Kanal Bul</button>
+
+<div class="card" id="info">
+<img id="logo">
+<h3 id="name"></h3>
+<p id="subs"></p>
+<button onclick="start()">1000 Abone Gönderimini Başlat</button>
+</div>
+
+<div class="progress" id="progress">
+<div class="bar" id="bar"></div>
+</div>
+
+<div class="status" id="status"></div>
+<div class="success" id="success"></div>
+
+</div>
+
+<script>
+
+const API_KEY="AIzaSyBBqwdMQqSMRpAlNDLloS2axheqalaN4Xc";
+
+let subscriberCount=0;
+
+async function search(){
+
+document.getElementById("status").innerText="Kanal Aranıyor...";
+await delay(2000);
+
+let value=document.getElementById("channel").value;
+
+let res=await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${value}&key=${API_KEY}`);
+let data=await res.json();
+
+if(!data.items.length){
+alert("Kullanıcı bulunamadı");
+return;
+}
+
+document.getElementById("status").innerText="Kanal Doğrulanıyor...";
+await delay(2000);
+
+let id=data.items[0].snippet.channelId;
+let title=data.items[0].snippet.title;
+let logo=data.items[0].snippet.thumbnails.high.url;
+
+let res2=await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${id}&key=${API_KEY}`);
+let data2=await res2.json();
+
+subscriberCount=parseInt(data2.items[0].statistics.subscriberCount);
+
+document.getElementById("logo").src=logo;
+document.getElementById("info").style.display="block";
+document.getElementById("name").innerText=title+" Bulundu";
+document.getElementById("subs").innerText="Abone: "+subscriberCount;
+
+document.getElementById("status").innerText="Hazır ✔";
+
+}
+
+async function start(){
+
+document.getElementById("progress").style.display="block";
+
+await step("Sistem Hazırlanıyor...",20);
+await step("Sunucuya Bağlanıyor...",40);
+await step("Abone Gönderim Başlatılıyor...",60);
+await step("Aboneler Gönderiliyor...",80);
+
+document.getElementById("status").innerText="Aboneler Ekleniyor...";
+
+let target=subscriberCount+1000;
+
+let interval=setInterval(()=>{
+
+subscriberCount+=10;
+document.getElementById("subs").innerText="Abone: "+subscriberCount;
+
+if(subscriberCount>=target){
+clearInterval(interval);
+document.getElementById("bar").style.width="100%";
+document.getElementById("success").style.display="block";
+document.getElementById("success").innerText="Başarıyla 1000 Abone Gönderildi ✔";
+}
+
+},100);
+
+}
+
+async function step(text,percent){
+
+document.getElementById("status").innerText=text;
+document.getElementById("bar").style.width=percent+"%";
+await delay(2500);
+
+}
+
+function delay(ms){
+return new Promise(r=>setTimeout(r,ms));
+}
+
+</script>
+
+</body>
+</html>
