@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Shorts Studio Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & VARIABLES ===== */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --d9:#0a0a0f;--d8:#12121a;--d7:#1a1a25;--d6:#22222f;--d5:#2d2d3d;--d4:#3a3a4f;
+  --em:#10b981;--emd:#059669;--rd:#ef4444;--bl:#3b82f6;--pu:#a855f7;--pk:#ec4899;
+  --or:#f97316;--am:#f59e0b;--cy:#06b6d4;--vi:#8b5cf6;
+  --tx:#e2e8f0;--txm:#94a3b8;--txd:#64748b;
+}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--d9);color:var(--tx);min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--d8)}::-webkit-scrollbar-thumb{background:var(--d4);border-radius:3px}
+.hidden{display:none!important}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ===== HEADER ===== */
+.hdr{position:sticky;top:0;z-index:100;background:rgba(10,10,15,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--d5);padding:10px 16px}
+.hdr-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-ic{width:38px;height:38px;background:linear-gradient(135deg,var(--em),#14b8a6);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;box-shadow:0 4px 12px rgba(16,185,129,.3)}
+.logo h1{font-size:17px;font-weight:800}.logo h1 b{color:var(--em)}
+.logo p{font-size:9px;color:var(--txd);margin-top:-2px}
+.hdr-acts{display:flex;gap:6px;align-items:center}
+.ib{width:34px;height:34px;border:none;background:0;color:var(--txm);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.ib:hover{background:var(--d6);color:#fff}
+
+/* ===== LAYOUT ===== */
+.main{max-width:1400px;margin:0 auto;padding:20px 16px 60px;display:flex;gap:20px}
+.lpan{width:420px;flex-shrink:0}
+.rpan{flex:1;display:flex;flex-direction:column;align-items:center;position:sticky;top:80px;align-self:flex-start}
+@media(max-width:960px){.main{flex-direction:column}.lpan{width:100%}.rpan{position:static;order:-1}}
+
+/* ===== TABS ===== */
+.tabs{display:flex;gap:3px;padding:3px;background:var(--d8);border-radius:14px;margin-bottom:16px;overflow-x:auto}
+.tbtn{flex:1;min-width:0;padding:9px 6px;background:0;border:none;color:var(--txm);font-size:11px;font-weight:600;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:.2s;white-space:nowrap}
+.tbtn:hover{color:#fff;background:rgba(255,255,255,.04)}
+.tbtn.act{background:rgba(16,185,129,.15);color:var(--em);border:1px solid rgba(16,185,129,.25)}
+.tab-c{display:none;animation:fadeIn .25s ease}.tab-c.act{display:block}
+.tabs-wrap{max-height:calc(100vh - 190px);overflow-y:auto;padding-right:4px}
+
+/* ===== CARD ===== */
+.card{background:linear-gradient(135deg,rgba(18,18,26,.92),rgba(26,26,37,.7));border:1px solid var(--d4);border-radius:14px;padding:18px;margin-bottom:14px}
+.card-h{display:flex;align-items:center;gap:9px;margin-bottom:14px}
+.card-h h3{font-size:13px;font-weight:700;flex:1}
+.ci{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.ci.rd{background:rgba(239,68,68,.18);color:var(--rd)}.ci.bl{background:rgba(59,130,246,.18);color:var(--bl)}
+.ci.pu{background:rgba(168,85,247,.18);color:var(--pu)}.ci.pk{background:rgba(236,72,153,.18);color:var(--pk)}
+.ci.or{background:rgba(249,115,22,.18);color:var(--or)}.ci.am{background:rgba(245,158,11,.18);color:var(--am)}
+.ci.cy{background:rgba(6,182,212,.18);color:var(--cy)}.ci.em{background:rgba(16,185,129,.18);color:var(--em)}
+.ci.vi{background:rgba(139,92,246,.18);color:var(--vi)}
+
+/* ===== FORM ===== */
+.fg{margin-bottom:12px}.fg:last-child{margin-bottom:0}
+.fg label{display:block;font-size:10px;font-weight:600;color:var(--txm);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.fg input[type=text],.fg textarea{width:100%;padding:10px 12px;background:var(--d7);border:1px solid var(--d4);border-radius:10px;color:#fff;font-size:13px;outline:none;transition:.2s;font-family:inherit}
+.fg input[type=text]:focus,.fg textarea:focus{border-color:var(--em);box-shadow:0 0 0 2px rgba(16,185,129,.12)}
+.fg textarea{resize:none;min-height:80px}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ci-row{display:flex;gap:6px;align-items:center}
+.ci-row input[type=color]{width:36px;height:36px;border:2px solid var(--d4);border-radius:8px;padding:2px;cursor:pointer;background:0}
+.ci-row input[type=text]{flex:1;padding:7px;font-family:monospace;font-size:11px}
+input[type=range]{width:100%;height:5px;background:var(--d5);border-radius:3px;outline:none;-webkit-appearance:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;background:var(--em);border-radius:50%;border:2px solid var(--d9);box-shadow:0 2px 6px rgba(16,185,129,.35)}
+
+/* ===== UPLOAD ===== */
+.upl{width:100%;padding:32px 16px;background:0;border:2px dashed var(--d4);border-radius:12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--txm);transition:.2s;font-size:13px}
+.upl:hover{border-color:var(--em);background:rgba(16,185,129,.04)}
+.upl .ui{width:44px;height:44px;background:var(--d6);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;transition:.2s}
+.upl:hover .ui{background:rgba(16,185,129,.18)}
+.upl span{font-size:11px;color:var(--txd)}
+.fi{display:flex;align-items:center;gap:10px;padding:10px;background:var(--d7);border-radius:10px;margin-bottom:10px}
+.fi-ic{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.fi-txt{flex:1;min-width:0}.fi-txt p{font-size:12px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.fi-txt span{font-size:10px;color:var(--txd)}
+.fi-rm{width:26px;height:26px;border:none;background:0;color:var(--txm);border-radius:6px;cursor:pointer;font-size:13px;transition:.2s}
+.fi-rm:hover{background:rgba(239,68,68,.2);color:var(--rd)}
+
+/* ===== BUTTONS ===== */
+.btn{width:100%;padding:13px;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s}
+.btn-p{background:linear-gradient(135deg,var(--em),var(--emd));color:#fff;box-shadow:0 4px 16px rgba(16,185,129,.25)}
+.btn-p:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(16,185,129,.35)}
+.btn-p:disabled{background:var(--d5);color:var(--txd);box-shadow:none;cursor:not-allowed;transform:none}
+.btn-d{background:linear-gradient(135deg,var(--rd),#dc2626);color:#fff;box-shadow:0 4px 16px rgba(239,68,68,.25);animation:pulse 1.5s infinite}
+.btn-s{background:var(--d6);color:var(--txm);padding:9px}.btn-s:hover{background:var(--d5);color:#fff}
+.btn-sm{padding:5px 10px;background:var(--d6);border:none;border-radius:6px;color:var(--txm);font-size:11px;cursor:pointer;transition:.2s}.btn-sm:hover{background:var(--d5);color:#fff}
+.btn-yt{background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff}
+.btn-yt:disabled{opacity:.5;cursor:not-allowed}
+.btn-ai{background:linear-gradient(135deg,var(--pu),var(--pk));color:#fff}
+.btn-ai:disabled{opacity:.5;cursor:not-allowed}
+
+/* ===== PRESETS ===== */
+.prgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;max-height:250px;overflow-y:auto;padding-right:3px}
+.prbtn{padding:10px;background:var(--d7);border:1px solid var(--d4);border-radius:10px;cursor:pointer;text-align:left;transition:.2s}
+.prbtn:hover{border-color:rgba(16,185,129,.35)}
+.prcol{display:flex;gap:5px;margin-bottom:6px}
+.prcol i{display:block;width:14px;height:14px;border-radius:50%;border:1px solid var(--d4)}
+.prbtn p{font-size:11px;color:var(--txm)}
+
+/* ===== TOGGLE ===== */
+.trow{display:flex;align-items:center;justify-content:space-between}
+.trow span{font-size:13px;color:var(--txm)}
+.tbg{display:flex;align-items:center;gap:5px;padding:5px 10px;border:none;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;transition:.2s}
+.tbg.on{background:rgba(16,185,129,.18);color:var(--em)}.tbg.off{background:rgba(239,68,68,.18);color:var(--rd)}
+
+/* ===== POSITION ===== */
+.posgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.posbtn{padding:8px;background:var(--d7);border:1px solid var(--d4);border-radius:8px;color:var(--txm);font-size:11px;cursor:pointer;transition:.2s}
+.posbtn:hover{border-color:var(--d4)}.posbtn.act{background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.3);color:var(--em)}
+
+/* ===== QUALITY / FPS ===== */
+.qgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.qbtn{padding:12px;background:var(--d7);border:2px solid transparent;border-radius:12px;cursor:pointer;text-align:left;transition:.2s}
+.qbtn:hover{border-color:var(--d4)}.qbtn.act{background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.35)}
+.qbtn .em{font-size:18px;display:block;margin-bottom:6px}
+.qbtn strong{display:block;font-size:12px;color:var(--tx)}.qbtn.act strong{color:var(--em)}
+.qbtn small{font-size:10px;color:var(--txd)}
+.fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.fbtn{padding:10px;background:var(--d7);border:1px solid var(--d4);border-radius:10px;color:var(--txm);font-size:13px;font-weight:700;cursor:pointer;text-align:center;transition:.2s}
+.fbtn:hover{border-color:var(--d4);color:#fff}.fbtn.act{background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.3);color:var(--em)}
+
+/* ===== AUDIO CONTROLS ===== */
+.ainfo{display:flex;align-items:center;gap:10px;padding:10px;background:var(--d7);border-radius:10px;margin-bottom:10px}
+.aic{width:36px;height:36px;background:linear-gradient(135deg,var(--pk),var(--pu));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px}
+.atxt{flex:1;min-width:0}.atxt p{font-size:12px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.atxt span{font-size:10px;color:var(--txd)}
+.aplay{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.aplbtn{width:36px;height:36px;background:var(--em);border:none;border-radius:50%;color:#fff;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.aplbtn:hover{background:var(--emd)}
+.aplay input[type=range]{flex:1}
+.aplay .atime{font-size:10px;color:var(--txd);min-width:36px;text-align:right}
+
+/* ===== STATUS ===== */
+.rstatus{padding:14px;border-radius:12px;margin-bottom:14px}
+.rstatus.rec{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2)}
+.rstatus.done{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2)}
+.rstatus.proc{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2)}
+.rstatus.prep{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2)}
+.sh{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.sh .dot{width:9px;height:9px;border-radius:50%;animation:pulse 1s infinite}
+.sh h4{font-size:12px;font-weight:700}
+.pbar{height:5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;margin:8px 0}
+.pbar .fill{height:100%;background:linear-gradient(90deg,var(--rd),var(--or));border-radius:3px;transition:width .3s}
+.ptxt{display:flex;justify-content:space-between;font-size:10px;color:var(--txd)}
+.musbox{background:rgba(236,72,153,.08);border:1px solid rgba(236,72,153,.18);border-radius:12px;padding:14px;margin-bottom:14px;font-size:12px;color:rgba(236,72,153,.8)}
+.musbox strong{color:var(--pk);display:flex;align-items:center;gap:6px;margin-bottom:6px}
+
+/* ===== TAGS ===== */
+.tags-c{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px;min-height:28px}
+.tag{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;background:var(--d6);border-radius:5px;font-size:11px;color:var(--txm)}
+.tag button{background:0;border:0;color:var(--txd);cursor:pointer;font-size:13px;padding:0;line-height:1}.tag button:hover{color:var(--rd)}
+.tag-row{display:flex;gap:6px}.tag-row input{flex:1;padding:7px 10px;background:var(--d7);border:1px solid var(--d4);border-radius:8px;color:#fff;font-size:12px;outline:0}.tag-row input:focus{border-color:var(--em)}
+.cc{font-size:9px;color:var(--txd);text-align:right;margin-top:3px}
+
+/* ===== YOUTUBE ===== */
+.chinfo{display:flex;align-items:center;gap:10px;padding:10px;background:var(--d7);border-radius:10px}
+.chinfo img{width:36px;height:36px;border-radius:50%}
+.chinfo .det{flex:1}.chinfo .det p{font-size:12px;font-weight:600}.chinfo .det span{font-size:10px;color:var(--txd)}
+.badge{font-size:9px;padding:2px 7px;border-radius:12px;font-weight:600;background:rgba(168,85,247,.15);color:var(--pu)}
+.lrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.lrow label{margin-bottom:0}
+.cpbtn{font-size:10px;color:var(--txd);background:0;border:0;cursor:pointer;transition:.2s}.cpbtn:hover{color:#fff}
+.vidready{padding:10px;border-radius:10px;margin-bottom:10px;display:flex;align-items:center;gap:7px;font-size:12px}
+.vidready.ok{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.18);color:var(--em)}
+.vidready.no{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.18);color:var(--am)}
+.ytprog{margin-bottom:10px}
+.ytprog .pbar .fill{background:linear-gradient(90deg,#dc2626,var(--or))}
+.ytsuccess{padding:14px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.18);border-radius:12px;text-align:center;margin-bottom:10px}
+.ytsuccess p{color:var(--em);font-weight:700;margin-bottom:6px}
+.ytsuccess a{color:var(--bl);font-size:12px;text-decoration:none}.ytsuccess a:hover{text-decoration:underline}
+.yterr{padding:10px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.18);border-radius:10px;text-align:center;color:var(--rd);font-size:12px;margin-bottom:10px}
+
+/* ===== PREVIEW ===== */
+.prev-h{display:flex;align-items:center;gap:7px;color:var(--txm);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px}
+.rec-i{display:flex;align-items:center;gap:5px;padding:3px 9px;background:rgba(239,68,68,.18);border-radius:16px;margin-left:6px}
+.rec-i .rd{width:7px;height:7px;background:var(--rd);border-radius:50%;animation:pulse .8s infinite}
+.rec-i span{font-size:10px;font-weight:700;color:var(--rd)}
+.pf{position:relative;background:linear-gradient(180deg,#3a3a4f,#27272a);border-radius:36px;padding:10px;box-shadow:0 16px 50px rgba(0,0,0,.5)}
+.pn{position:absolute;top:0;left:50%;transform:translateX(-50%);width:90px;height:22px;background:#1a1a25;border-radius:0 0 14px 14px;z-index:10}
+.ps{position:relative;width:260px;height:464px;background:#000;border-radius:28px;overflow:hidden}
+.ptop{width:100%;min-height:38px;padding:10px 8px;background:#fff;color:#f00;font-size:16px;font-weight:900;text-align:center;display:flex;align-items:center;justify-content:center;line-height:1.2;word-break:break-word}
+.pimg{width:100%;height:144px;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#3a3a4f;overflow:hidden}
+.pimg img{width:100%;height:100%;object-fit:contain}
+.pimg span{font-size:10px}
+.pbot{width:100%;min-height:32px;padding:8px;background:#fff;color:#000;font-size:14px;font-weight:700;text-align:center;display:flex;align-items:center;justify-content:center;line-height:1.2;word-break:break-word}
+.pvid{width:100%;height:240px;background:#0a0a0f;position:relative;overflow:hidden}
+.pvid video{width:100%;height:100%;object-fit:cover;display:none}.pvid video.vis{display:block}
+.vph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#3a3a4f}
+.vph .circ{width:36px;height:36px;border:2px dashed #3a3a4f;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;margin-bottom:6px}
+.vph p{font-size:10px}
+.pwm{position:absolute;font-size:9px;font-weight:600;color:rgba(255,255,255,.5);text-shadow:1px 1px 2px rgba(0,0,0,.5);pointer-events:none}
+.abadge{position:absolute;bottom:6px;left:6px;display:flex;align-items:center;gap:3px;padding:3px 7px;background:rgba(0,0,0,.6);border-radius:16px;font-size:8px;color:#ccc}
+
+/* ===== FOOTER ===== */
+.ftr{position:fixed;bottom:0;left:0;right:0;background:rgba(10,10,15,.92);backdrop-filter:blur(10px);border-top:1px solid var(--d5);padding:7px 16px;z-index:100}
+.ftr-c{max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;font-size:10px;color:var(--txd)}
+.ftr-l{display:flex;gap:14px;align-items:center}
+.frec{color:var(--rd);font-weight:700;animation:pulse .8s infinite}
+
+/* ===== TOAST ===== */
+.toast{position:fixed;top:70px;right:16px;padding:12px 18px;background:var(--d8);border:1px solid var(--d4);border-radius:12px;color:#fff;font-size:13px;font-weight:500;box-shadow:0 8px 30px rgba(0,0,0,.5);z-index:1000;animation:fadeIn .25s ease;pointer-events:none}
+
+/* ===== MODAL ===== */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;padding:16px;z-index:1000}
+.modal-c{background:var(--d8);border:1px solid var(--d4);border-radius:18px;padding:28px;max-width:420px;width:100%;animation:fadeIn .25s ease}
+.modal-c h2{font-size:18px;margin-bottom:10px}.modal-c p{color:var(--txm);font-size:13px;margin-bottom:14px}
+.modal-c ul{color:var(--txm);font-size:12px;padding-left:18px;margin-bottom:16px}.modal-c li{margin-bottom:3px}
+
+/* ===== MISC ===== */
+.tip{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.18);border-radius:10px;padding:12px;margin-top:12px;font-size:11px;color:rgba(245,158,11,.75)}
+.tip h4{color:var(--am);margin-bottom:6px;font-size:11px}
+.tip li{margin-bottom:3px}
+.info{background:var(--d7);border-radius:10px;padding:14px;margin-top:14px;font-size:11px;color:var(--txd)}
+.info h4{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;color:var(--txm)}
+.info li,.info ol li{margin-bottom:3px}
+.info ol{padding-left:16px}
+.warn{font-size:11px;color:rgba(245,158,11,.6);text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="hdr"><div class="hdr-inner">
+  <div class="logo">
+    <div class="logo-ic">🎬</div>
+    <div><h1><b>Shorts</b> Studio</h1><p>PRO VIDEO MAKER v3.0</p></div>
+  </div>
+  <div class="hdr-acts">
+    <button class="ib" onclick="if(confirm('Yeni proje?'))location.reload()" title="Yeni">➕</button>
+    <button class="ib" onclick="saveProj()" title="Kaydet">💾</button>
+    <button class="ib" onclick="$('infoModal').classList.remove('hidden')" title="Bilgi">ℹ️</button>
+  </div>
+</div></header>
+
+<!-- ===== MAIN ===== -->
+<main class="main">
+<!-- LEFT PANEL -->
+<div class="lpan">
+  <div class="tabs" id="tabBar"></div>
+  <div class="tabs-wrap">
+    <!-- TEXT TAB -->
+    <div class="tab-c act" id="T-text">
+      <div class="card"><div class="card-h"><div class="ci rd">✏️</div><h3>Üst Yazı</h3></div>
+        <div class="fg"><label>Metin</label><input type="text" id="topText" value="ABONE OLMAYI UNUTMA" oninput="upd()"></div>
+        <div class="fr"><div class="fg"><label>Yazı Rengi</label><div class="ci-row"><input type="color" id="topTC" value="#ff0000" oninput="upd()"><input type="text" id="topTCh" value="#ff0000" oninput="sc('topTC',this.value)"></div></div>
+        <div class="fg"><label>Arka Plan</label><div class="ci-row"><input type="color" id="topBG" value="#ffffff" oninput="upd()"><input type="text" id="topBGh" value="#ffffff" oninput="sc('topBG',this.value)"></div></div></div>
+        <div class="fg"><label>Boyut: <span id="tfsV">46</span>px</label><input type="range" id="tfs" min="20" max="72" value="46" oninput="$('tfsV').textContent=this.value;upd()"></div>
+      </div>
+      <div class="card"><div class="card-h"><div class="ci bl">📝</div><h3>Alt Yazı</h3></div>
+        <div class="fg"><label>Metin</label><input type="text" id="botText" value="Hemen Sende Beğen" oninput="upd()"></div>
+        <div class="fr"><div class="fg"><label>Yazı Rengi</label><div class="ci-row"><input type="color" id="botTC" value="#000000" oninput="upd()"><input type="text" id="botTCh" value="#000000" oninput="sc('botTC',this.value)"></div></div>
+        <div class="fg"><label>Arka Plan</label><div class="ci-row"><input type="color" id="botBG" value="#ffffff" oninput="upd()"><input type="text" id="botBGh" value="#ffffff" oninput="sc('botBG',this.value)"></div></div></div>
+        <div class="fg"><label>Boyut: <span id="bfsV">42</span>px</label><input type="range" id="bfs" min="20" max="72" value="42" oninput="$('bfsV').textContent=this.value;upd()"></div>
+      </div>
+    </div>
+
+    <!-- MEDIA TAB -->
+    <div class="tab-c" id="T-media">
+      <div class="card"><div class="card-h"><div class="ci pu">🖼️</div><h3>Görsel</h3></div>
+        <input type="file" id="imgIn" accept="image/*" onchange="loadImg(this)" style="display:none">
+        <div id="imgArea"><button class="upl" onclick="$('imgIn').click()"><div class="ui">📷</div><p>Görsel Yükle</p><span>PNG, JPG, WEBP</span></button></div>
+        <div id="imgAdj" class="hidden">
+          <div class="fg"><label>Parlaklık: <span id="brV">100</span>%</label><input type="range" id="br" min="20" max="200" value="100" oninput="$('brV').textContent=this.value;upd()"></div>
+          <div class="fg"><label>Kontrast: <span id="crV">100</span>%</label><input type="range" id="cr" min="20" max="200" value="100" oninput="$('crV').textContent=this.value;upd()"></div>
+          <div class="fg"><label>Doygunluk: <span id="saV">100</span>%</label><input type="range" id="sa" min="0" max="200" value="100" oninput="$('saV').textContent=this.value;upd()"></div>
+        </div>
+      </div>
+      <div class="card"><div class="card-h"><div class="ci or">🎬</div><h3>Arka Plan Videosu</h3></div>
+        <input type="file" id="vidIn" accept="video/mp4,video/webm,video/mov" onchange="loadVid(this)" style="display:none">
+        <div id="vidArea"><button class="upl" onclick="$('vidIn').click()"><div class="ui">🎥</div><p>Video Yükle</p><span>MP4, WEBM, MOV</span></button></div>
+      </div>
+    </div>
+
+    <!-- AUDIO TAB -->
+    <div class="tab-c" id="T-audio">
+      <div class="card"><div class="card-h"><div class="ci pk">🎵</div><h3>Arka Plan Müziği</h3></div>
+        <input type="file" id="audIn" accept="audio/*" onchange="loadAud(this)" style="display:none">
+        <div id="audArea"><button class="upl" onclick="$('audIn').click()"><div class="ui">🎶</div><p>Müzik Yükle</p><span>MP3, WAV, OGG</span></button></div>
+        <div id="audCtrl" class="hidden">
+          <div class="ainfo"><div class="aic">🎵</div><div class="atxt"><p id="audName">-</p><span id="audDur">0:00</span></div><button class="fi-rm" onclick="rmAud()">✕</button></div>
+          <div class="aplay"><button class="aplbtn" onclick="togAud()"><span id="audPI">▶</span></button><input type="range" id="audSeek" min="0" max="100" value="0" oninput="seekA(this.value)"><span class="atime" id="audCT">0:00</span></div>
+        </div>
+      </div>
+      <div id="audSet" class="card hidden">
+        <div class="card-h"><div class="ci em">🔊</div><h3>Ses Ayarları</h3></div>
+        <div class="fg"><label>Müzik Sesi: <span id="avV">80</span>%</label><input type="range" id="av" min="0" max="100" value="80" oninput="$('avV').textContent=this.value"></div>
+        <div class="fg"><label>Başlangıç: <span id="asV">0</span>s</label><input type="range" id="as" min="0" max="0" value="0" step="0.5" oninput="$('asV').textContent=this.value"></div>
+        <div class="fg"><label>Fade In: <span id="fiV">0</span>s</label><input type="range" id="fi" min="0" max="5" value="0" step="0.5" oninput="$('fiV').textContent=this.value"></div>
+        <div class="fg"><label>Fade Out: <span id="foV">0</span>s</label><input type="range" id="fo" min="0" max="5" value="0" step="0.5" oninput="$('foV').textContent=this.value"></div>
+      </div>
+      <div class="card"><div class="card-h"><div class="ci bl">🔈</div><h3>Video Sesi</h3></div>
+        <div class="trow"><span>Video sesi</span><button id="vmBtn" class="tbg off" onclick="togVM()"><span id="vmTxt">🔇 Kapalı</span></button></div>
+        <div id="vvCtrl" class="fg hidden" style="margin-top:12px"><label>Ses: <span id="vvV">100</span>%</label><input type="range" id="vv" min="0" max="100" value="100" oninput="$('vvV').textContent=this.value"></div>
+      </div>
+      <div class="tip"><h4>💡 İpuçları</h4><ul style="padding-left:16px"><li>Müzik AudioBuffer ile decode edilir — güvenilir</li><li>Fade in/out yumuşak geçiş sağlar</li></ul></div>
+    </div>
+
+    <!-- STYLE TAB -->
+    <div class="tab-c" id="T-style">
+      <div class="card"><div class="card-h"><div class="ci am">✨</div><h3>Hazır Temalar</h3><button class="btn-sm" onclick="resetSt()">↺ Sıfırla</button></div><div class="prgrid" id="prGrid"></div></div>
+      <div class="card"><div class="card-h"><div class="ci vi">🔤</div><h3>Yazı Efektleri</h3></div>
+        <div class="trow"><span>Gölge Efekti</span><button id="tsBtn" class="tbg on" onclick="togTS()"><span id="tsTxt">Açık</span></button></div>
+      </div>
+      <div class="card"><div class="card-h"><div class="ci cy">💧</div><h3>Filigran</h3></div>
+        <div class="fg"><label>Metin</label><input type="text" id="wm" placeholder="@kanaladi" oninput="upd()"></div>
+        <div class="fg"><label>Konum</label><div class="posgrid">
+          <button class="posbtn" onclick="setWP('top-left')">↖ Sol Üst</button><button class="posbtn" onclick="setWP('top-right')">↗ Sağ Üst</button>
+          <button class="posbtn" onclick="setWP('bottom-left')">↙ Sol Alt</button><button class="posbtn act" onclick="setWP('bottom-right')">↘ Sağ Alt</button>
+        </div></div>
+        <div class="fg"><label>Opaklık: <span id="woV">50</span>%</label><input type="range" id="wo" min="10" max="100" value="50" oninput="$('woV').textContent=this.value;upd()"></div>
+      </div>
+    </div>
+
+    <!-- EXPORT TAB -->
+    <div class="tab-c" id="T-export">
+      <div class="card"><div class="card-h"><div class="ci cy">📺</div><h3>Çözünürlük</h3></div>
+        <div class="qgrid">
+          <button class="qbtn" data-q="low" onclick="setQ('low')"><span class="em">📱</span><strong>360p</strong><small>Hızlı</small></button>
+          <button class="qbtn" data-q="medium" onclick="setQ('medium')"><span class="em">💻</span><strong>540p</strong><small>Dengeli</small></button>
+          <button class="qbtn act" data-q="high" onclick="setQ('high')"><span class="em">🖥️</span><strong>720p HD</strong><small>Yüksek</small></button>
+          <button class="qbtn" data-q="ultra" onclick="setQ('ultra')"><span class="em">🎬</span><strong>1080p</strong><small>En yüksek</small></button>
+        </div>
+      </div>
+      <div class="card"><div class="card-h"><div class="ci vi">⚡</div><h3>FPS</h3></div>
+        <div class="fgrid">
+          <button class="fbtn" data-f="15" onclick="setF(15)">15</button>
+          <button class="fbtn" data-f="24" onclick="setF(24)">24</button>
+          <button class="fbtn act" data-f="30" onclick="setF(30)">30</button>
+          <button class="fbtn" data-f="60" onclick="setF(60)">60</button>
+        </div>
+      </div>
+      <div id="recStat" class="hidden"></div>
+      <div id="musBox" class="musbox hidden"></div>
+      <button id="expBtn" class="btn btn-p" onclick="doRec()">📥 Videoyu Oluştur ve İndir</button>
+      <p id="expWarn" class="warn">⚠️ Önce bir video yükleyin</p>
+      <div class="info"><h4>Bilgi</h4><ul style="padding-left:16px"><li>Video süresi, yüklenen videonun süresi kadardır</li><li>Müzik AudioBuffer ile decode edilir</li></ul></div>
+    </div>
+
+    <!-- YOUTUBE TAB -->
+    <div class="tab-c" id="T-youtube">
+      <div class="card"><div class="card-h"><div class="ci rd">▶️</div><h3>YouTube Hesabı</h3></div>
+        <div id="ytNoLogin"><button class="btn btn-yt" onclick="ytLogin()">🔑 Google ile Giriş Yap</button></div>
+        <div id="ytLogged" class="hidden"><div class="chinfo"><img id="ytThumb" src=""><div class="det"><p id="ytChName">-</p><span id="ytChSubs">-</span></div><button class="fi-rm" onclick="ytLogout()">🚪</button></div></div>
+      </div>
+      <div class="card"><div class="card-h"><div class="ci pu">🤖</div><h3>AI İçerik Oluşturucu</h3><span class="badge">Gemini AI</span></div>
+        <button id="aiBtn" class="btn btn-ai" onclick="aiGen()">✨ Başlık & Etiket Oluştur</button>
+        <p id="aiWarn" class="warn">⚠️ Metin ekleyin</p>
+      </div>
+      <div id="cEditor" class="card hidden">
+        <div class="card-h"><div class="ci em">📝</div><h3>Video Bilgileri</h3></div>
+        <div class="fg"><div class="lrow"><label>Başlık</label><button class="cpbtn" onclick="navigator.clipboard.writeText($('ytTitle').value);toast('📋 Kopyalandı')">📋</button></div><input type="text" id="ytTitle" maxlength="100" oninput="$('ytTitleC').textContent=this.value.length"><span class="cc"><span id="ytTitleC">0</span>/100</span></div>
+        <div class="fg"><div class="lrow"><label>Açıklama</label><button class="cpbtn" onclick="navigator.clipboard.writeText($('ytDesc').value);toast('📋 Kopyalandı')">📋</button></div><textarea id="ytDesc" rows="3" maxlength="5000" oninput="$('ytDescC').textContent=this.value.length"></textarea><span class="cc"><span id="ytDescC">0</span>/5000</span></div>
+        <div class="fg"><label>Etiketler</label><div id="tagsC" class="tags-c"></div><div class="tag-row"><input type="text" id="newTag" placeholder="Yeni etiket..." onkeydown="if(event.key==='Enter'){event.preventDefault();addTag()}"><button class="btn-sm" onclick="addTag()">Ekle</button></div></div>
+        <button class="btn btn-s" onclick="aiGen()">↻ Yeniden Oluştur</button>
+      </div>
+      <div id="ytUpSec" class="card hidden">
+        <div class="card-h"><div class="ci rd">📤</div><h3>YouTube'a Yükle</h3></div>
+        <div id="vidReady" class="vidready no">⚠️ Önce video oluşturun</div>
+        <div id="ytProg" class="ytprog hidden"></div>
+        <button id="ytUpBtn" class="btn btn-yt" onclick="ytUpload()" disabled>▶️ YouTube'a Yükle</button>
+      </div>
+      <div class="info"><h4>Nasıl Çalışır?</h4><ol><li>Google ile giriş yapın</li><li>AI ile başlık/etiket oluşturun</li><li>Video oluşturup YouTube'a yükleyin</li></ol></div>
+    </div>
+  </div>
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="rpan">
+  <div class="prev-h">📱 <span>Canlı Önizleme</span><span id="recBadge" class="rec-i hidden"><span class="rd"></span><span>REC</span></span></div>
+  <div class="pf"><div class="pn"></div><div class="ps">
+    <div id="pTop" class="ptop">ABONE OLMAYI UNUTMA</div>
+    <div id="pImg" class="pimg"><span style="font-size:24px">🖼️</span><span>Görsel Seçin</span></div>
+    <div id="pBot" class="pbot">Hemen Sende Beğen</div>
+    <div class="pvid"><div class="vph" id="vidPH"><div class="circ">▶</div><p>Video Seçin</p></div><video id="vidEl" muted loop playsinline></video></div>
+    <div id="pWM" class="pwm hidden" style="bottom:6px;right:10px"></div>
+    <div id="pABadge" class="abadge hidden">🎵 <span id="pAName">-</span></div>
+  </div></div>
+</div>
+</main>
+
+<!-- FOOTER -->
+<footer class="ftr"><div class="ftr-c">
+  <div class="ftr-l"><span id="ftrQ">HIGH • 30 FPS</span><span id="ftrA" class="hidden">🎵 Müzik</span><span id="ftrR" class="frec hidden">● KAYDEDİLİYOR</span></div>
+  <span>Shorts Studio Pro v3.0</span>
+</div></footer>
+
+<!-- HIDDEN -->
+<canvas id="cvs" width="720" height="1280" style="display:none"></canvas>
+<img id="hImg" crossorigin="anonymous" style="display:none">
+<audio id="audEl" preload="auto" style="display:none"></audio>
+
+<!-- TOAST -->
+<div id="toastEl" class="toast hidden"></div>
+
+<!-- INFO MODAL -->
+<div id="infoModal" class="modal hidden" onclick="if(event.target===this)this.classList.add('hidden')">
+  <div class="modal-c">
+    <h2>📹 Shorts Studio Pro</h2>
+    <p>YouTube Shorts, TikTok ve Instagram Reels için dikey videolar oluşturun.</p>
+    <ul><li>Metin, görsel, video, müzik</li><li>12 hazır tema</li><li>Gemini AI başlık/etiket</li><li>YouTube'a yükleme</li><li>Müzikli video kaydı (AudioBuffer)</li></ul>
+    <button class="btn btn-p" onclick="$('infoModal').classList.add('hidden')">Anladım</button>
+  </div>
+</div>
+
+<script>
+/* ===== HELPERS ===== */
+const $=id=>document.getElementById(id);
+const fmt=s=>{if(!isFinite(s))return'0:00';const m=Math.floor(s/60),ss=Math.floor(s%60);return m+':'+String(ss).padStart(2,'0')};
+let toastTimer;
+function toast(m){const t=$('toastEl');t.textContent=m;t.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.add('hidden'),2500)}
+function sc(id,v){if(/^#[0-9A-Fa-f]{6}$/.test(v)){$(id).value=v;upd()}}
+
+/* ===== STATE ===== */
+let S={
+  q:'high',fps:30,wp:'bottom-right',ts:true,vm:true,
+  imgSrc:null,vidSrc:null,audSrc:null,audName:'',audDur:0,
+  rec:false,blob:null,ytToken:null,ytExp:0,tags:[]
+};
+const GEMINI_KEY='AIzaSyAQ-Ab8RN6La__MkRhTHWcgB_cGuPsJD0NHsTNJCIf8dWvhyZmY8-Q';
+const YT_CID='319737583897-gag7c4o0jrhlnsc3jr5ld9hshb6rmso8.apps.googleusercontent.com';
+const QM={low:{w:360,h:640},medium:{w:540,h:960},high:{w:720,h:1280},ultra:{w:1080,h:1920}};
+const BPS={low:1500000,medium:3000000,high:6000000,ultra:12000000};
+const PRESETS=[
+  {n:'🔴 YouTube Klasik',a:'#ff0000',b:'#ffffff',c:'#000000',d:'#ffffff'},
+  {n:'🌙 Gece Modu',a:'#60a5fa',b:'#1e293b',c:'#a5b4fc',d:'#1e293b'},
+  {n:'🔥 Ateş',a:'#ffffff',b:'#dc2626',c:'#ffffff',d:'#ea580c'},
+  {n:'💚 Yeşil Enerji',a:'#ffffff',b:'#059669',c:'#ffffff',d:'#10b981'},
+  {n:'💜 Mor Rüya',a:'#ffffff',b:'#7c3aed',c:'#ffffff',d:'#a855f7'},
+  {n:'⚡ Elektrik',a:'#fbbf24',b:'#1f2937',c:'#34d399',d:'#1f2937'},
+  {n:'🌸 Sakura',a:'#be185d',b:'#fce7f3',c:'#9d174d',d:'#fbcfe8'},
+  {n:'🌊 Okyanus',a:'#ffffff',b:'#0369a1',c:'#ffffff',d:'#0284c7'},
+  {n:'🖤 Karanlık',a:'#ffffff',b:'#18181b',c:'#a1a1aa',d:'#27272a'},
+  {n:'💛 Güneş',a:'#713f12',b:'#fef08a',c:'#854d0e',d:'#fde047'},
+  {n:'🩵 Turkuaz',a:'#ffffff',b:'#0891b2',c:'#ffffff',d:'#06b6d4'},
+  {n:'🩷 Neon',a:'#f0abfc',b:'#0f0f23',c:'#67e8f9',d:'#0f0f23'},
+];
+
+/* ===== INIT ===== */
+document.addEventListener('DOMContentLoaded',()=>{
+  // Tabs
+  const tabs=[['text','✏️','Metin'],['media','🖼️','Medya'],['audio','🎵','Ses'],['style','🎨','Stil'],['export','📤','Dışa Aktar'],['youtube','▶️','YouTube']];
+  $('tabBar').innerHTML=tabs.map(([id,ic,lb],i)=>`<button class="tbtn${i===0?' act':''}" data-t="${id}" onclick="swTab('${id}')">${ic} <span style="display:none;@media(min-width:500px){display:inline}">${lb}</span></button>`).join('');
+  // Presets
+  $('prGrid').innerHTML=PRESETS.map((p,i)=>`<button class="prbtn" onclick="apPr(${i})"><div class="prcol"><i style="background:${p.b}"></i><i style="background:${p.a}"></i></div><p>${p.n}</p></button>`).join('');
+  // YT auth check
+  const tk=localStorage.getItem('yt_tk'),ex=localStorage.getItem('yt_ex');
+  if(tk&&ex&&Date.now()<+ex){S.ytToken=tk;S.ytExp=+ex;ytLoadCh()}
+  upd();chkVid();
+});
+
+/* ===== TABS ===== */
+function swTab(id){
+  document.querySelectorAll('.tbtn').forEach(b=>b.classList.toggle('act',b.dataset.t===id));
+  document.querySelectorAll('.tab-c').forEach(c=>c.classList.toggle('act',c.id==='T-'+id));
+  if(id==='export'){chkVid();updMusBox()}
+  if(id==='youtube'){chkVidReady();$('aiWarn').classList.toggle('hidden',!!$('topText').value)}
+}
+
+/* ===== PREVIEW ===== */
+function upd(){
+  const pt=$('pTop'),pb=$('pBot'),tt=$('topText').value,bt=$('botText').value;
+  pt.textContent=tt.toUpperCase()||'ÜST YAZI';
+  pt.style.cssText=`background:${$('topBG').value};color:${$('topTC').value};font-size:${Math.max(+$('tfs').value*.37,10)}px;text-shadow:${S.ts?'1px 1px 2px rgba(0,0,0,.2)':'none'}`;
+  pb.textContent=bt||'ALT YAZI';
+  pb.style.cssText=`background:${$('botBG').value};color:${$('botTC').value};font-size:${Math.max(+$('bfs').value*.37,10)}px;text-shadow:${S.ts?'1px 1px 2px rgba(0,0,0,.15)':'none'}`;
+  // hex sync
+  $('topTCh').value=$('topTC').value;$('topBGh').value=$('topBG').value;
+  $('botTCh').value=$('botTC').value;$('botBGh').value=$('botBG').value;
+  // image filter
+  const img=$('pImg').querySelector('img');
+  if(img)img.style.filter=`brightness(${$('br').value}%) contrast(${$('cr').value}%) saturate(${$('sa').value}%)`;
+  // watermark
+  const wt=$('wm').value,pw=$('pWM');
+  if(wt){pw.textContent=wt;pw.style.opacity=+$('wo').value/100;pw.className='pwm '+S.wp;pw.classList.remove('hidden')}
+  else pw.classList.add('hidden');
+}
+
+/* ===== MEDIA ===== */
+function loadImg(inp){
+  const f=inp.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    S.imgSrc=e.target.result;
+    $('hImg').src=S.imgSrc;
+    $('pImg').innerHTML=`<img src="${S.imgSrc}">`;
+    $('imgArea').innerHTML=`<div class="fi"><div class="fi-ic" style="background:rgba(168,85,247,.18)">🖼️</div><div class="fi-txt"><p>${f.name}</p><span>Yüklendi</span></div><button class="fi-rm" onclick="rmImg()">✕</button></div><button class="btn btn-s" onclick="$('imgIn').click()">↑ Değiştir</button>`;
+    $('imgAdj').classList.remove('hidden');
+    upd();
+  };r.readAsDataURL(f);
+}
+function rmImg(){
+  S.imgSrc=null;$('imgIn').value='';$('hImg').src='';
+  $('pImg').innerHTML='<span style="font-size:24px">🖼️</span><span>Görsel Seçin</span>';
+  $('imgArea').innerHTML='<button class="upl" onclick="$(\'imgIn\').click()"><div class="ui">📷</div><p>Görsel Yükle</p><span>PNG, JPG, WEBP</span></button>';
+  $('imgAdj').classList.add('hidden');
+}
+function loadVid(inp){
+  const f=inp.files[0];if(!f)return;
+  S.vidSrc=URL.createObjectURL(f);
+  const v=$('vidEl');v.src=S.vidSrc;v.classList.add('vis');v.load();v.play().catch(()=>{});
+  $('vidPH').style.display='none';
+  $('vidArea').innerHTML=`<div class="fi"><div class="fi-ic" style="background:rgba(249,115,22,.18)">🎬</div><div class="fi-txt"><p>${f.name}</p><span>Yüklendi</span></div><button class="fi-rm" onclick="rmVid()">✕</button></div><button class="btn btn-s" onclick="$('vidIn').click()">↑ Değiştir</button>`;
+  chkVid();toast('✓ Video yüklendi');
+}
+function rmVid(){
+  if(S.vidSrc)URL.revokeObjectURL(S.vidSrc);S.vidSrc=null;$('vidIn').value='';
+  const v=$('vidEl');v.src='';v.classList.remove('vis');$('vidPH').style.display='flex';
+  $('vidArea').innerHTML='<button class="upl" onclick="$(\'vidIn\').click()"><div class="ui">🎥</div><p>Video Yükle</p><span>MP4, WEBM, MOV</span></button>';
+  chkVid();
+}
+function loadAud(inp){
+  const f=inp.files[0];if(!f)return;
+  S.audSrc=URL.createObjectURL(f);S.audName=f.name;
+  const a=$('audEl');a.src=S.audSrc;a.load();
+  a.onloadedmetadata=()=>{S.audDur=a.duration;$('audDur').textContent=fmt(a.duration);$('as').max=Math.max(0,a.duration-1)};
+  $('audName').textContent=f.name;
+  $('audArea').classList.add('hidden');$('audCtrl').classList.remove('hidden');$('audSet').classList.remove('hidden');
+  $('pABadge').classList.remove('hidden');$('pAName').textContent=f.name.slice(0,12)+(f.name.length>12?'…':'');
+  $('ftrA').classList.remove('hidden');
+  toast('🎵 Müzik yüklendi');
+}
+function rmAud(){
+  if(S.audSrc)URL.revokeObjectURL(S.audSrc);S.audSrc=null;S.audName='';S.audDur=0;
+  const a=$('audEl');a.pause();a.src='';$('audIn').value='';
+  $('audArea').classList.remove('hidden');$('audCtrl').classList.add('hidden');$('audSet').classList.add('hidden');
+  $('pABadge').classList.add('hidden');$('ftrA').classList.add('hidden');$('audPI').textContent='▶';
+}
+let audPlay=false;
+function togAud(){const a=$('audEl');if(audPlay){a.pause();$('audPI').textContent='▶'}else{a.play();$('audPI').textContent='⏸'}audPlay=!audPlay}
+$('audEl').addEventListener('timeupdate',function(){$('audSeek').value=(this.currentTime/this.duration)*100;$('audCT').textContent=fmt(this.currentTime)});
+$('audEl').addEventListener('ended',()=>{audPlay=false;$('audPI').textContent='▶'});
+function seekA(v){const a=$('audEl');if(a.duration)a.currentTime=(v/100)*a.duration}
+
+/* ===== STYLE ===== */
+function apPr(i){const p=PRESETS[i];$('topTC').value=p.a;$('topBG').value=p.b;$('botTC').value=p.c;$('botBG').value=p.d;upd();toast('✓ '+p.n)}
+function resetSt(){$('topTC').value='#ff0000';$('topBG').value='#ffffff';$('tfs').value=46;$('tfsV').textContent='46';$('botTC').value='#000000';$('botBG').value='#ffffff';$('bfs').value=42;$('bfsV').textContent='42';$('br').value=100;$('brV').textContent='100';$('cr').value=100;$('crV').textContent='100';$('sa').value=100;$('saV').textContent='100';upd();toast('↺ Sıfırlandı')}
+function togTS(){S.ts=!S.ts;const b=$('tsBtn');b.className='tbg '+(S.ts?'on':'off');$('tsTxt').textContent=S.ts?'Açık':'Kapalı';upd()}
+function setWP(p){S.wp=p;document.querySelectorAll('.posbtn').forEach(b=>b.classList.toggle('act',b.textContent.includes(p==='top-left'?'Sol Üst':p==='top-right'?'Sağ Üst':p==='bottom-left'?'Sol Alt':'Sağ Alt')));upd()}
+function togVM(){S.vm=!S.vm;$('vmBtn').className='tbg '+(S.vm?'off':'on');$('vmTxt').textContent=S.vm?'🔇 Kapalı':'🔊 Açık';$('vvCtrl').classList.toggle('hidden',S.vm)}
+
+/* ===== EXPORT ===== */
+function setQ(q){S.q=q;document.querySelectorAll('.qbtn').forEach(b=>b.classList.toggle('act',b.dataset.q===q));updFtr()}
+function setF(f){S.fps=f;document.querySelectorAll('.fbtn').forEach(b=>b.classList.toggle('act',+b.dataset.f===f));updFtr()}
+function updFtr(){$('ftrQ').textContent=S.q.toUpperCase()+' • '+S.fps+' FPS'}
+function chkVid(){const ok=!!S.vidSrc;$('expBtn').disabled=!ok;$('expWarn').classList.toggle('hidden',ok)}
+function updMusBox(){const b=$('musBox');if(S.audSrc){b.classList.remove('hidden');b.innerHTML=`<strong>🎵 Müzik Dahil Edilecek</strong><p>• ${S.audName}</p><p>• Ses: %${$('av').value} | Başlangıç: ${$('as').value}s</p>${+$('fi').value>0?`<p>• Fade In: ${$('fi').value}s</p>`:''}${+$('fo').value>0?`<p>• Fade Out: ${$('fo').value}s</p>`:''}`}else b.classList.add('hidden')}
+
+/* ===== RECORDING ===== */
+let mRec,rChunks=[],animId,aCx,bSrc;
+
+async function doRec(){
+  if(S.rec){stopRec();return}
+  const vid=$('vidEl'),cvs=$('cvs');
+  if(!S.vidSrc||!vid.duration){toast('⚠️ Önce video yükleyin');return}
+
+  S.rec=true;rChunks=[];
+  const r=QM[S.q];cvs.width=r.w;cvs.height=r.h;
+  vid.loop=false;vid.currentTime=0;
+
+  showRecUI('prep');
+
+  try{
+    aCx=new AudioContext();
+    const dest=aCx.createMediaStreamDestination();
+    let hasA=false;const dur=vid.duration;
+
+    // music
+    if(S.audSrc){
+      try{
+        const res=await fetch(S.audSrc);const ab=await res.arrayBuffer();const buf=await aCx.decodeAudioData(ab);
+        bSrc=aCx.createBufferSource();bSrc.buffer=buf;
+        const g=aCx.createGain();const vol=+$('av').value/100;
+        const fIn=+$('fi').value,fOut=+$('fo').value,off=+$('as').value;
+        if(fIn>0){g.gain.setValueAtTime(.0001,aCx.currentTime);g.gain.linearRampToValueAtTime(vol,aCx.currentTime+fIn)}else g.gain.setValueAtTime(vol,aCx.currentTime);
+        if(fOut>0){const fs=Math.max(0,dur-fOut);g.gain.setValueAtTime(vol,aCx.currentTime+fs);g.gain.linearRampToValueAtTime(.0001,aCx.currentTime+dur)}
+        bSrc.connect(g);g.connect(dest);g.connect(aCx.destination);
+        const md=Math.min(dur,buf.duration-off);bSrc.start(0,off,md>0?md:undefined);hasA=true;
+      }catch(e){console.warn('Music err:',e)}
+    }
+    // vid audio
+    if(!S.vm){try{vid.muted=false;vid.volume=+$('vv').value/100;
+      const vs=vid.captureStream?vid.captureStream():vid.mozCaptureStream?vid.mozCaptureStream():null;
+      if(vs){const at=vs.getAudioTracks();if(at.length){const ms=aCx.createMediaStreamSource(new MediaStream(at));const g=aCx.createGain();g.gain.value=vid.volume;ms.connect(g);g.connect(dest);hasA=true}}
+    }catch(e){console.warn('Vid audio err:',e)}}else vid.muted=true;
+
+    if(!hasA){const o=aCx.createOscillator(),g=aCx.createGain();g.gain.value=0;o.connect(g);g.connect(dest);o.start()}
+
+    const cs=cvs.captureStream(S.fps),combo=new MediaStream();
+    cs.getVideoTracks().forEach(t=>combo.addTrack(t));
+    dest.stream.getAudioTracks().forEach(t=>combo.addTrack(t));
+
+    let mime='video/webm';
+    for(const t of['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'])if(MediaRecorder.isTypeSupported(t)){mime=t;break}
+
+    mRec=new MediaRecorder(combo,{mimeType:mime,videoBitsPerSecond:BPS[S.q],audioBitsPerSecond:128000});
+    mRec.ondataavailable=e=>{if(e.data.size>0)rChunks.push(e.data)};
+    mRec.onstop=()=>{
+      S.rec=false;try{bSrc?.stop()}catch{}try{aCx?.close()}catch{};bSrc=null;aCx=null;
+      showRecUI('proc');
+      setTimeout(()=>{
+        const blob=new Blob(rChunks,{type:mime});S.blob=blob;
+        const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=`shorts_${Date.now()}.webm`;document.body.appendChild(a);a.click();document.body.removeChild(a);
+        setTimeout(()=>URL.revokeObjectURL(u),60000);
+        showRecUI('done');vid.loop=true;vid.muted=true;vid.currentTime=0;vid.play().catch(()=>{});
+        toast('✅ Video oluşturuldu!');
+      },200);
+    };
+    mRec.onerror=()=>{S.rec=false;try{bSrc?.stop()}catch{}try{aCx?.close()}catch{};showRecUI('err')};
+
+    await vid.play();mRec.start(100);showRecUI('rec');drawFrame();
+  }catch(e){S.rec=false;try{bSrc?.stop()}catch{}try{aCx?.close()}catch{};showRecUI('err');toast('❌ '+e.message)}
+}
+
+function stopRec(){
+  S.rec=false;if(animId)cancelAnimationFrame(animId);
+  try{bSrc?.stop()}catch{};
+  if(mRec&&mRec.state!=='inactive')mRec.stop();
+  const v=$('vidEl');v.muted=true;v.pause();
+}
+
+$('vidEl').addEventListener('ended',()=>{if(S.rec)stopRec()});
+
+function drawFrame(){
+  if(!S.rec)return;
+  const cvs=$('cvs'),vid=$('vidEl'),img=$('hImg'),c=cvs.getContext('2d');
+  const w=cvs.width,h=cvs.height,s=w/720;
+  c.fillStyle='#000';c.fillRect(0,0,w,h);
+  const tH=Math.round(h*.102),iH=Math.round(h*.39),bH=Math.round(h*.086),vY=tH+iH+bH,vH=h-vY;
+
+  // top
+  c.fillStyle=$('topBG').value;c.fillRect(0,0,w,tH);
+  const tFs=Math.round(+$('tfs').value*s);
+  c.fillStyle=$('topTC').value;c.font=`900 ${tFs}px "Segoe UI",Arial,sans-serif`;c.textAlign='center';c.textBaseline='middle';
+  if(S.ts){c.shadowColor='rgba(0,0,0,.3)';c.shadowBlur=4*s;c.shadowOffsetX=2*s;c.shadowOffsetY=2*s}
+  const words=$('topText').value.toUpperCase().split(' ');let ln='';const lns=[];
+  for(const wd of words){const t=ln+wd+' ';if(c.measureText(t).width>w-40*s&&ln){lns.push(ln.trim());ln=wd+' '}else ln=t}
+  lns.push(ln.trim());const lh=tFs*1.15,sy=(tH-lns.length*lh)/2+lh/2;
+  lns.forEach((l,i)=>c.fillText(l,w/2,sy+i*lh));
+  c.shadowColor='transparent';c.shadowBlur=0;c.shadowOffsetX=0;c.shadowOffsetY=0;
+
+  // img
+  if(img.src&&img.naturalWidth>0){
+    c.save();c.filter=`brightness(${$('br').value}%) contrast(${$('cr').value}%) saturate(${$('sa').value}%)`;
+    const ia=img.naturalWidth/img.naturalHeight,aa=w/iH;
+    let dw=w,dh=iH,dx=0,dy=tH;
+    if(ia>aa){dh=w/ia;dy=tH+(iH-dh)/2}else{dw=iH*ia;dx=(w-dw)/2}
+    c.drawImage(img,dx,dy,dw,dh);c.restore();
+  }else{c.fillStyle='#1a1a25';c.fillRect(0,tH,w,iH)}
+
+  // bot
+  const bY=tH+iH;c.fillStyle=$('botBG').value;c.fillRect(0,bY,w,bH);
+  const bFs=Math.round(+$('bfs').value*s);
+  c.fillStyle=$('botTC').value;c.font=`bold ${bFs}px "Segoe UI",Arial,sans-serif`;c.textAlign='center';c.textBaseline='middle';
+  if(S.ts){c.shadowColor='rgba(0,0,0,.2)';c.shadowBlur=3*s;c.shadowOffsetX=s;c.shadowOffsetY=s}
+  c.fillText($('botText').value,w/2,bY+bH/2);c.shadowColor='transparent';c.shadowBlur=0;c.shadowOffsetX=0;c.shadowOffsetY=0;
+
+  // vid
+  if(vid.readyState>=2){const va=vid.videoWidth/vid.videoHeight,ea=w/vH;let vw=w,vh=vH,vx=0,vy=vY;
+    if(va>ea){vh=w/va;vy=vY+(vH-vh)/2}else{vw=vH*va;vx=(w-vw)/2}
+    c.drawImage(vid,vx,vy,vw,vh)}else{c.fillStyle='#0a0a0f';c.fillRect(0,vY,w,vH)}
+
+  // wm
+  const wt=$('wm').value;
+  if(wt){c.save();const wf=Math.round(24*s);c.font=`600 ${wf}px "Segoe UI",Arial,sans-serif`;c.fillStyle=`rgba(255,255,255,${+$('wo').value/100})`;c.textAlign='left';c.textBaseline='alphabetic';
+    const ww=c.measureText(wt).width,p=20*s;let wx=p,wy=p+wf;
+    if(S.wp==='top-right')wx=w-ww-p;if(S.wp==='bottom-left')wy=h-p;if(S.wp==='bottom-right'){wx=w-ww-p;wy=h-p}
+    c.shadowColor='rgba(0,0,0,.5)';c.shadowBlur=4;c.fillText(wt,wx,wy);c.restore()}
+
+  // progress
+  const pct=(vid.currentTime/vid.duration)*100;
+  const pe=$('recProg');if(pe)pe.style.width=pct+'%';
+  const pt=$('recTime');if(pt)pt.textContent=fmt(vid.currentTime)+' / '+fmt(vid.duration);
+  const pp=$('recPct');if(pp)pp.textContent='%'+Math.round(pct);
+  animId=requestAnimationFrame(drawFrame);
+}
+
+function showRecUI(st){
+  const rs=$('recStat'),eb=$('expBtn'),rb=$('recBadge'),fr=$('ftrR');
+  rs.classList.remove('hidden','rec','done','proc','prep');
+  switch(st){
+    case'prep':rs.classList.add('prep');rs.innerHTML='<div class="sh"><div class="dot" style="background:var(--bl)"></div><h4 style="color:var(--bl)">Hazırlanıyor...</h4></div><p style="font-size:11px;color:var(--txd)">Ses kaynakları ayarlanıyor</p>';eb.disabled=true;eb.textContent='⏳ Hazırlanıyor...';break;
+    case'rec':rs.classList.add('rec');rs.innerHTML='<div class="sh"><div class="dot" style="background:var(--rd)"></div><h4 style="color:var(--rd)">Kaydediliyor...</h4></div><div class="pbar"><div class="fill" id="recProg" style="width:0%"></div></div><div class="ptxt"><span id="recTime">0:00</span><span id="recPct">%0</span></div>';eb.className='btn btn-d';eb.innerHTML='⏹ Kaydı Durdur';eb.disabled=false;rb.classList.remove('hidden');fr.classList.remove('hidden');break;
+    case'proc':rs.classList.add('proc');rs.innerHTML='<div class="sh"><div class="dot" style="background:var(--am)"></div><h4 style="color:var(--am)">İşleniyor...</h4></div>';eb.disabled=true;eb.textContent='⏳ İşleniyor...';eb.className='btn btn-p';rb.classList.add('hidden');fr.classList.add('hidden');break;
+    case'done':rs.classList.add('done');rs.innerHTML='<div class="sh"><h4 style="color:var(--em)">✓ Tamamlandı!</h4></div><p style="font-size:11px;color:var(--txd)">Video indirildi</p>';eb.disabled=false;eb.className='btn btn-p';eb.innerHTML='📥 Videoyu Oluştur ve İndir';rb.classList.add('hidden');fr.classList.add('hidden');break;
+    case'err':rs.innerHTML='<div class="sh"><h4 style="color:var(--rd)">❌ Hata</h4></div>';rs.style.background='rgba(239,68,68,.08)';rs.style.border='1px solid rgba(239,68,68,.18)';eb.disabled=false;eb.className='btn btn-p';eb.innerHTML='📥 Tekrar Dene';rb.classList.add('hidden');fr.classList.add('hidden');break;
+    default:rs.classList.add('hidden');eb.disabled=!S.vidSrc;rb.classList.add('hidden');fr.classList.add('hidden');
+  }
+}
+
+/* ===== YOUTUBE ===== */
+function ytLogin(){
+  const redir=location.origin+location.pathname,st=Math.random().toString(36).slice(2);
+  sessionStorage.setItem('oa_st',st);
+  const url=`https://accounts.google.com/o/oauth2/v2/auth?client_id=${YT_CID}&redirect_uri=${encodeURIComponent(redir)}&response_type=token&scope=${encodeURIComponent('https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtube.readonly')}&state=${st}&prompt=consent`;
+  const pop=window.open(url,'yt_oauth','width=500,height=600,popup=1');
+  if(!pop){toast('⚠️ Popup engellendi');return}
+  const iv=setInterval(()=>{try{
+    if(pop.closed){clearInterval(iv);return}
+    if(pop.location.href.includes('access_token=')){clearInterval(iv);const h=pop.location.hash.slice(1),p=new URLSearchParams(h),tk=p.get('access_token'),ex=+(p.get('expires_in')||3600);pop.close();
+      if(tk){S.ytToken=tk;S.ytExp=Date.now()+ex*1000-60000;localStorage.setItem('yt_tk',tk);localStorage.setItem('yt_ex',S.ytExp.toString());ytLoadCh();toast('✓ Giriş yapıldı')}
+    }
+  }catch{}},500);
+  setTimeout(()=>{clearInterval(iv);if(!pop.closed)pop.close()},300000);
+}
+async function ytLoadCh(){
+  if(!S.ytToken)return;
+  try{const r=await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&mine=true',{headers:{Authorization:'Bearer '+S.ytToken}});
+    if(!r.ok){if(r.status===401)ytLogout();return}
+    const d=await r.json(),ch=d.items?.[0];
+    if(ch){$('ytThumb').src=ch.snippet.thumbnails?.default?.url||'';$('ytChName').textContent=ch.snippet.title;
+      const sc=+ch.statistics.subscriberCount;$('ytChSubs').textContent=(sc>=1e6?(sc/1e6).toFixed(1)+'M':sc>=1e3?(sc/1e3).toFixed(1)+'K':sc)+' abone';
+      $('ytNoLogin').classList.add('hidden');$('ytLogged').classList.remove('hidden');$('ytUpSec').classList.remove('hidden');chkVidReady()}
+  }catch(e){console.error(e)}
+}
+function ytLogout(){S.ytToken=null;S.ytExp=0;localStorage.removeItem('yt_tk');localStorage.removeItem('yt_ex');$('ytNoLogin').classList.remove('hidden');$('ytLogged').classList.add('hidden');$('ytUpSec').classList.add('hidden');toast('Çıkış yapıldı')}
+function chkVidReady(){const vr=$('vidReady'),ub=$('ytUpBtn');if(S.blob){const sz=(S.blob.size/1048576).toFixed(2);vr.className='vidready ok';vr.textContent='✓ Video hazır ('+sz+' MB)';ub.disabled=false}else{vr.className='vidready no';vr.textContent='⚠️ Önce video oluşturun';ub.disabled=true}}
+
+/* ===== GEMINI AI ===== */
+async function aiGen(){
+  const tt=$('topText').value,bt=$('botText').value;
+  if(!tt){toast('⚠️ Metin ekleyin');return}
+  const btn=$('aiBtn');btn.disabled=true;btn.textContent='⏳ Oluşturuluyor...';
+  const prompt=`Sen YouTube Shorts uzmanısın. Bu videoya Türkçe viral başlık, açıklama ve 10 etiket oluştur.\nÜst yazı: "${tt}"\nAlt yazı: "${bt}"\n${S.audSrc?'Müzik var':'Müzik yok'}\nSadece JSON döndür:\n{"title":"emoji+başlık max100","description":"SEO açıklama max500","tags":["shorts","etiket1",...]}\nTürkçe ol, #shorts dahil et.`;
+  try{
+    const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:.9,maxOutputTokens:1024}})});
+    const d=await r.json();let txt=d.candidates?.[0]?.content?.parts?.[0]?.text||'';
+    const m=txt.match(/```json\s*([\s\S]*?)\s*```/)||txt.match(/\{[\s\S]*\}/);if(m)txt=m[1]||m[0];
+    const res=JSON.parse(txt);
+    $('ytTitle').value=res.title||'';$('ytDesc').value=res.description||'';S.tags=Array.isArray(res.tags)?res.tags:['shorts'];
+    $('ytTitleC').textContent=$('ytTitle').value.length;$('ytDescC').textContent=$('ytDesc').value.length;
+    renderTags();$('cEditor').classList.remove('hidden');$('aiWarn').classList.add('hidden');toast('✓ İçerik oluşturuldu');
+  }catch(e){
+    $('ytTitle').value='🔥 '+tt.slice(0,50)+' #shorts';$('ytDesc').value=tt+'\n\n'+bt+'\n\n👍 Abone ol!\n\n#shorts #viral';
+    S.tags=['shorts','viral','trending','türkiye','keşfet'];renderTags();$('cEditor').classList.remove('hidden');toast('⚠️ AI hatası, varsayılan kullanıldı');
+  }
+  btn.disabled=false;btn.textContent='✨ Başlık & Etiket Oluştur';
+}
+function renderTags(){$('tagsC').innerHTML=S.tags.map(t=>`<span class="tag">#${t}<button onclick="rmTag('${t}')">×</button></span>`).join('')}
+function addTag(){const i=$('newTag'),t=i.value.trim().replace(/^#/,'');if(t&&!S.tags.includes(t)){S.tags.push(t);renderTags();i.value=''}}
+function rmTag(t){S.tags=S.tags.filter(x=>x!==t);renderTags()}
+
+/* ===== YOUTUBE UPLOAD ===== */
+async function ytUpload(){
+  if(!S.blob){toast('⚠️ Önce video oluşturun');return}
+  if(!S.ytToken){toast('⚠️ Giriş yapın');return}
+  const title=$('ytTitle').value;if(!title){toast('⚠️ Başlık gerekli');return}
+  const ub=$('ytUpBtn'),pg=$('ytProg');ub.disabled=true;pg.classList.remove('hidden');
+  const meta={snippet:{title:title.slice(0,100),description:$('ytDesc').value.slice(0,5000),tags:S.tags,categoryId:'22',defaultLanguage:'tr'},status:{privacyStatus:'public',selfDeclaredMadeForKids:false}};
+  const bd='-------314159265358979323846',dl='\r\n--'+bd+'\r\n',cl='\r\n--'+bd+'--';
+  const body=new Blob([dl,'Content-Type: application/json; charset=UTF-8\r\n\r\n',JSON.stringify(meta),dl,'Content-Type: '+S.blob.type+'\r\nContent-Transfer-Encoding: binary\r\n\r\n',S.blob,cl]);
+  const xhr=new XMLHttpRequest();
+  xhr.upload.onprogress=e=>{if(e.lengthComputable){const p=Math.round(e.loaded/e.total*100);pg.innerHTML='<div class="ptxt"><span>Yükleniyor...</span><span>%'+p+'</span></div><div class="pbar"><div class="fill" style="width:'+p+'%"></div></div>';ub.textContent='⏳ %'+p}};
+  xhr.onload=()=>{if(xhr.status>=200&&xhr.status<300){const r=JSON.parse(xhr.responseText),vid=r.id;pg.innerHTML=`<div class="ytsuccess"><p>✓ Yükleme Başarılı!</p><a href="https://youtube.com/shorts/${vid}" target="_blank">🔗 Videoyu İzle</a></div>`;toast('🎉 YouTube\'a yüklendi!')}else{let msg='Yükleme başarısız';try{msg=JSON.parse(xhr.responseText).error?.message||msg}catch{};pg.innerHTML='<div class="yterr">❌ '+msg+'</div>'}ub.disabled=false;ub.textContent='▶️ YouTube\'a Yükle'};
+  xhr.onerror=()=>{pg.innerHTML='<div class="yterr">❌ Ağ hatası</div>';ub.disabled=false;ub.textContent='▶️ YouTube\'a Yükle'};
+  xhr.open('POST','https://www.googleapis.com/upload/youtube/v3/videos?uploadType=multipart&part=snippet,status');
+  xhr.setRequestHeader('Authorization','Bearer '+S.ytToken);xhr.setRequestHeader('Content-Type','multipart/related; boundary="'+bd+'"');
+  xhr.send(body);
+}
+
+/* ===== SAVE/LOAD ===== */
+function saveProj(){
+  localStorage.setItem('sp',JSON.stringify({tt:$('topText').value,ttc:$('topTC').value,tbg:$('topBG').value,tfs:$('tfs').value,bt:$('botText').value,btc:$('botTC').value,bbg:$('botBG').value,bfs:$('bfs').value,wm:$('wm').value,wo:$('wo').value,wp:S.wp,ts:S.ts,q:S.q,fps:S.fps}));
+  toast('✅ Kaydedildi');
+}
+window.addEventListener('load',()=>{const d=localStorage.getItem('sp');if(d){try{const p=JSON.parse(d);$('topText').value=p.tt||'';$('topTC').value=p.ttc||'#ff0000';$('topBG').value=p.tbg||'#ffffff';$('tfs').value=p.tfs||46;$('tfsV').textContent=p.tfs||46;$('botText').value=p.bt||'';$('botTC').value=p.btc||'#000000';$('botBG').value=p.bbg||'#ffffff';$('bfs').value=p.bfs||42;$('bfsV').textContent=p.bfs||42;$('wm').value=p.wm||'';$('wo').value=p.wo||50;$('woV').textContent=p.wo||50;S.wp=p.wp||'bottom-right';S.ts=p.ts!==false;S.q=p.q||'high';S.fps=p.fps||30;setQ(S.q);setF(S.fps);const tB=$('tsBtn');tB.className='tbg '+(S.ts?'on':'off');$('tsTxt').textContent=S.ts?'Açık':'Kapalı';upd()}catch{}}});
+
+// OAuth redirect handler
+if(location.hash.includes('access_token=')){const h=location.hash.slice(1),p=new URLSearchParams(h),tk=p.get('access_token'),ex=+(p.get('expires_in')||3600);if(tk){localStorage.setItem('yt_tk',tk);localStorage.setItem('yt_ex',(Date.now()+ex*1000-60000).toString());location.hash='';location.reload()}}
+</script>
+</body>
+</html>
